@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/xmlSchema"
+    xmlns:dfdl="http://www.ogf.org/dfdl/dfdl-1.0/"
+    xmlns:daf="urn:ogf:dfdl:2013:imp:daffodil.apache.org:2018:ext"
+    xmlns:fn="http:/www.w3.org/2005/xpath-functions"
+  elementFormDefault="unqualified">
+  <xs:group name = "test" >
+    <xs:sequence dfdl:hiddenGroupRef="hiddenTestGrp"/>
+    <xs:sequence>
+      <xs:element name="foo1">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:annotation>
+              <xs:appinfo source="http://www.ogf.org/dfdl/">
+              </xs:appinfo>
+            </xs:annotation>
+            <xs:element name="Keyword"
+            type="xs:string" dfdl:alignment="1" dfdl:length="" 
+            dfdl:alignmentUnits="bytes" dfdl:representation="text"
+            dfdl:lengthKind="delimited" dfdl:terminator="%NUL;" 
+            dfdl:outputNewLine="%CR;"></xs:element>
+            <xs:element name="Compression_Method" type="xs:unsignedInt">
+              <xs:annotation>
+                <xs:appinfo source="http://www.ogf.org/dfdl/">
+                  <dfdl:assert><![CDATA[{ . eq 0 }]]></dfdl:assert>
+                </xs:appinfo>
+              </xs:annotation>
+            </xs:element>
+            <xs:element name="Datastream" type="xs:hexBinary" minOccurs="0" dfdl:representation="text" dfdl:occursCountKind="implicit" dfdl:lengthKind="explicit" dfdl:lengthUnits="bytes" dfdl:length="{../../Length - fn:string-length(../Keyword) - 2}"/>
+          </xs:sequence>      
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>  
+    <xs:sequence><xs:element name="foo2" type="xs:string" dfdl:length="10"  dfdl:lengthKind="fixed" dfdl:lengthUnits="bytes"><xs:annotation><xs:appinfo source="http://www.ogf.org/dfdl/"><dfdl:discriminator test="{./length eq 4}"/></xs:appinfo></xs:annotation></xs:element></xs:sequence>
+  </xs:group>
+</xs:schema>
